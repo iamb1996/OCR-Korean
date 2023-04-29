@@ -23,7 +23,7 @@ jobs:
         name: Repo Checkout
         uses: actions/checkout@v2
 
-      - id: python
+      - id: mypython
         name: Python Setup & Packages Installation
         uses: actions/setup-python@v2
         with:
