@@ -31,7 +31,7 @@ jobs:
           cache: 'pip'
       - run: pip install -r requirements.txt
       
-      - id: python
+      - id: python2
         name: Python Setup & Packages download
         uses: actions/setup-python@v2
         with:
