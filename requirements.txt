@@ -1,0 +1,4 @@
+Pillow
+PyMuPDF
+pdf2image
+pytesseract
