@@ -34,7 +34,12 @@ jobs:
       - id: epython
         name: Python & Packages Installation
         uses: actions/setup-python@v2
-      - run: sudo apt install tesseract-ocr | libtesseract-dev
+      - run: sudo apt install tesseract-ocr 
+      
+      - id: eapython
+        name: Python & Packages Installation
+        uses: actions/setup-python@v2
+      - run: sudo apt install libtesseract-dev
 
       - id: jupyter 
         name: Jupyter Notebook Execution
