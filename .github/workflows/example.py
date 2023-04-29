@@ -1,3 +1,4 @@
 import os
 
-print("hello gitub")
+print(os.getcwd())
+
