@@ -34,9 +34,6 @@ jobs:
       - id: epython
         name: Python & Packages Installation
         uses: actions/setup-python@v2
-        with:
-          python-version: '3.9'
-          cache: 'apt'
       - run: sudo apt install -r packages.txt
 
       - id: jupyter 
