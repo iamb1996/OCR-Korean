@@ -1,41 +1,27 @@
-import os
-import re
-import requests
-import time
-import pandas as pd
-import pygsheets
-import unicodedata
-from bs4 import BeautifulSoup as bs
-from datetime import datetime
-from pytz import timezone
+# This is a basic workflow to help you get started with Actions
 
-def extract_fk_price(url):
-    request = requests.get(url)
-    soup = bs(request.content,'html.parser')
-    product_name = soup.find("span",{"class":"B_NuCI"}).get_text()
-    new_str = unicodedata.normalize("NFKD", product_name)
-    price = soup.find("div",{"class":"_30jeq3 _16Jk6d"}).get_text()
-    prince_int = int(''.join(re.findall(r'\d+', price)))
-    time_now = datetime.now(timezone("Asia/Kolkata")).strftime('%Y-%m-%d %H:%M')
-    return [new_str, prince_int, time_now]
+name: Python script
 
-path = 'PASTE_PATH_TO_GOOGLE_SHEET_API_JSON_FILE'
-sheet_id = 'PASTE_GOOGLE_SHEET_ID_HERE'
-URL = "PASTE_FK_PRODUCT_URL"
-gc = pygsheets.authorize(service_account_file = path)
-gsheet_1 = gc.open_by_key(sheet_id)
+# Controls when the workflow will run
+on:
 
-output = extract_fk_price(URL)
-df = pd.DataFrame([output], columns = ["Product", "Price", "Date Time"])
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
 
-ws_1 = gsheet_1.worksheet()
-sheet_df = ws_1.get_as_df()
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
 
-if sheet_df.empty:
-    ws_1.set_dataframe(df,
-                     (1,1))
-else:
-    df = pd.concat([sheet_df, df], 
-                   ignore_index=True)
-    ws_1.set_dataframe(df,
-                     (1,1))
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+
+      # Runs a single command using the runners shell
+      - name: Run a Python script
+        env:
+          AZURE_SECRET_TOKEN: ${{ secrets.AZURE_SECRET_TOKEN }}
+        run: python .github/workflows/example.py
